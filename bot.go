@@ -3,7 +3,6 @@ package wechatwork_bot_sdk_go
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -71,7 +70,7 @@ func (bot *Bot) SendText(msg TextContent) ([]byte, error) {
 		Text:    msg,
 	}
 	req, _ := json.Marshal(data)
-	return httpDo(req)
+	return bot.httpDo(req)
 }
 
 func (bot *Bot) SendMarkdown(msg MarkdownContent) ([]byte, error) {
@@ -80,7 +79,7 @@ func (bot *Bot) SendMarkdown(msg MarkdownContent) ([]byte, error) {
 		Markdown: msg,
 	}
 	req, _ := json.Marshal(data)
-	return httpDo(req)
+	return bot.httpDo(req)
 }
 
 func (bot *Bot) SendImage(msg ImageContent) ([]byte, error) {
@@ -89,7 +88,7 @@ func (bot *Bot) SendImage(msg ImageContent) ([]byte, error) {
 		Image:   msg,
 	}
 	req, _ := json.Marshal(data)
-	return httpDo(req)
+	return bot.httpDo(req)
 }
 
 func (bot *Bot) SendFile(msg FileContent) ([]byte, error) {
@@ -98,7 +97,7 @@ func (bot *Bot) SendFile(msg FileContent) ([]byte, error) {
 		File:    msg,
 	}
 	req, _ := json.Marshal(data)
-	return httpDo(req)
+	return bot.httpDo(req)
 }
 
 func (bot *Bot) SendNews(msg NewsContent) ([]byte, error) {
@@ -107,17 +106,17 @@ func (bot *Bot) SendNews(msg NewsContent) ([]byte, error) {
 		News:    msg,
 	}
 	req, _ := json.Marshal(data)
-	return httpDo(req)
+	return bot.httpDo(req)
 }
 
-func httpDo(data []byte) ([]byte, error) {
+func (bot *Bot) httpDo(data []byte) ([]byte, error) {
 	var (
 		body []byte
 		err  error
 	)
 	client := &http.Client{}
 
-	req, err := http.NewRequest("POST", baseUrl, bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", baseUrl + bot.token, bytes.NewBuffer(data))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -133,6 +132,6 @@ func httpDo(data []byte) ([]byte, error) {
 		log.Fatal(err)
 	}
 
-	fmt.Println(string(body))
 	return body, err
 }
+
