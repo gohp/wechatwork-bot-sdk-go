@@ -116,7 +116,7 @@ func (bot *Bot) httpDo(data []byte) ([]byte, error) {
 	)
 	client := &http.Client{}
 
-	req, err := http.NewRequest("POST", baseUrl + bot.token, bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", baseUrl+bot.token, bytes.NewBuffer(data))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -124,7 +124,9 @@ func (bot *Bot) httpDo(data []byte) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
-
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer resp.Body.Close()
 
 	body, err = ioutil.ReadAll(resp.Body)
@@ -134,4 +136,3 @@ func (bot *Bot) httpDo(data []byte) ([]byte, error) {
 
 	return body, err
 }
-

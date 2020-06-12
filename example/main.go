@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/wzyonggege/wechatwork-bot-sdk-go"
 	"log"
-	"wechatwork-bot-sdk-go"
 )
 
-func main()  {
+func main() {
 	bot := wechatwork_bot_sdk_go.NewBot("your-key-here")
 	resp, err := bot.SendText(wechatwork_bot_sdk_go.TextContent{
 		Content: "test",
@@ -18,4 +18,3 @@ func main()  {
 
 	fmt.Println(string(resp))
 }
- 
