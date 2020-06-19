@@ -1,11 +1,9 @@
 package wechatwork_bot_sdk_go
 
 import (
-	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"github.com/wzyonggege/goutils/httplib"
 	"log"
-	"net/http"
 )
 
 const (
@@ -110,28 +108,14 @@ func (bot *Bot) SendNews(msg NewsContent) ([]byte, error) {
 }
 
 func (bot *Bot) httpDo(data []byte) ([]byte, error) {
-	var (
-		body []byte
-		err  error
-	)
-	client := &http.Client{}
+	resp, err := httplib.Post(baseUrl+bot.token).
+		Body(data).
+		Header("Content-Type", "application/json").
+		Bytes()
 
-	req, err := http.NewRequest("POST", baseUrl + bot.token, bytes.NewBuffer(data))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := client.Do(req)
-
-	defer resp.Body.Close()
-
-	body, err = ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return body, err
+	return resp, err
 }
-
