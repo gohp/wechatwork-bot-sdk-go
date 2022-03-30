@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/wzyonggege/wechatwork-bot-sdk-go"
+	"github.com/gohp/wechatwork-bot-sdk-go"
 	"log"
 )
 

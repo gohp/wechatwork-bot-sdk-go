@@ -2,7 +2,7 @@ package wechatwork_bot_sdk_go
 
 import (
 	"encoding/json"
-	"github.com/wzyonggege/goutils/httplib"
+	"github.com/gohp/goutils/httplib"
 	"log"
 )
 
